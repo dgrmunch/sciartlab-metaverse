@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Basic Example — Networked-Aframe</title>
+    <meta name="description" content="Basic Example — Networked-Aframe">
+
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    <script src="easyrtc/easyrtc.js"></script>
+    <script src="https://unpkg.com/networked-aframe@^0.2.0/dist/networked-aframe.min.js"></script>
+
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+
+    <script>
+      // Define custom schema for syncing avatar color, set by random-color
+      var avatarSchema = {
+        template: '#avatar-template',
+        components: [
+          'position',
+          'rotation',
+          {
+            selector: '.head',
+            component: 'material'
+          }
+        ]
+      };
+      NAF.schemas.add(avatarSchema);
+    </script>
+  </head>
+  <body>
+
+    <a-scene inspector="url: https://aframe.io/releases/0.3.0/aframe-inspector.min.js" networked-scene="
+      room: basic;
+      debug: true;
+    ">
+      <a-assets>
+        <a-asset-item id="myobj" src="https://cdn.glitch.com/2dfdc756-243e-4c8d-a146-8d8c893f9a8e%2Fmodel.obj?1508279652851"></a-asset-item>
+       <a-asset-item id="mymtl" src="https://cdn.glitch.com/2dfdc756-243e-4c8d-a146-8d8c893f9a8e%2Fmaterials.mtl?1508279652489"></a-asset-item>
+     <a-asset-item id="playerObj" src="https://cdn.glitch.com/2dfdc756-243e-4c8d-a146-8d8c893f9a8e%2FiPhone%206.obj?1508283648999"></a-asset-item>
+        <a-asset-item id="playerMtl" src="https://cdn.glitch.com/2dfdc756-243e-4c8d-a146-8d8c893f9a8e%2FiPhone%206.mtl?1508283649309"></a-asset-item>
+        
+        <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
+        <img id="sky" src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
+        <img id="labo" src="https://cdn.glitch.com/2dfdc756-243e-4c8d-a146-8d8c893f9a8e%2FIMG-4372.JPG?1508282754964"/>
+        <!-- Templates -->
+
+        <!-- Avatar -->
+        <script id="avatar-template" type="text/html">
+          <a-entity class="avatar">
+            <a-sphere class="head"
+              color="#5985ff"
+              scale="0.45 0.5 0.4"
+              random-color
+            ></a-sphere>
+            <a-entity class="face"
+              position="0 0.05 0"
+            >
+              <a-sphere class="eye"
+                color="#efefef"
+                position="0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+              <a-sphere class="eye"
+                color="#efefef"
+                position="-0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+            </a-entity>
+          </a-entity>
+        </script>
+
+        <!-- /Templates -->
+      </a-assets>
+
+      
+      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera spawn-in-circle="radius:3;" position="0 1.3 0" wasd-controls look-controls>
+      </a-entity>
+       <a-entity obj-model="obj: #myobj; mtl: #mymtl" position="0 2 1"></a-entity>
+      <a-entity obj-model="obj: #playerObj; mtl: #playerMtl" position="10 2 1"></a-entity>
+      
+      <a-entity position="0 0 0"
+        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
+        material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+
+      <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
+      <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
+
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"
+             event-set__enter="_event: mouseenter; color: #8FF7FF"
+             event-set__leave="_event: mouseleave; color: #4CC3D9"></a-box>
+      
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"
+                event-set__down="_event: mousedown; scale: 1.2 1.2 1.2"
+                event-set__up="_event: mouseup; scale: 1 1 1"
+                event-set__leave="_event: mouseleave; scale: 1 1 1"></a-sphere>
+      
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"
+                  event-set__enter="_event: mouseenter; _target: #cylinderText; visible: true"
+                  event-set__leave="_event: mouseleave; _target: #cylinderText; visible: false">
+        <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="0 -0.55 0.55"
+                geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+      </a-cylinder>
+      
+      
+       <a-camera>
+        <a-cursor>
+        </a-cursor>
+      </a-camera>
+      
+      <a-sky src="#labo" ></a-sky>
+      <a-entity id="particles" particle-system="preset: snow"></a-entity>
+    </a-scene>
+
+    <script>
+      // On mobile remove elements that are resource heavy
+      var isMobile = AFRAME.utils.device.isMobile();
+
+      if (isMobile) {
+        var particles = document.getElementById('particles');
+        particles.parentNode.removeChild(particles);
+      }
+    </script>
+  </body>
+</html>
