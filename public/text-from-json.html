@@ -1,0 +1,36 @@
+  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script>
+  AFRAME.registerComponent('foo',{
+    init:function(){
+      var obj = JSON.parse('{ "name":"John", "age":30, "color":"red"}');
+      
+      this.el.setAttribute('value',"* Nombre: "+obj.John+"\n * Edad:"+obj.age);
+      this.el.setAttribute('color',obj.color);
+    }
+  });
+    
+    function processJson(json){
+      console.log(json);
+    }
+    
+    function httpGet(url, callback)
+{
+    console.log("Http GET to url: "+url)
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", url, true);
+    xmlHttp.send(null);
+}
+    
+    
+    httpGet("./json/input.json",processJson);
+    httpGet("http://xmunch.com/json/sciartlab/summary.json",processJson);
+    
+    
+  </script>
+  <a-scene>
+    <a-text position="0 1.6 -1" color="black" foo></a-text>
+  </a-scene>
