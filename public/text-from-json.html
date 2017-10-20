@@ -10,24 +10,27 @@
   });
     
     function processJson(json){
-      console.log(json);
+      var obj = JSON.parse(json);
+      console.log(obj.description);
+      document.querySelector('[foo]').setAttribute("color", "green");
+      document.querySelector('[foo]').setAttribute("value", obj.description);
+      
     }
     
     function httpGet(url, callback)
-{
-    console.log("Http GET to url: "+url)
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
+    {
+        console.log("Http GET to url: "+url)
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() { 
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send(null);
     }
-    xmlHttp.open("GET", url, true);
-    xmlHttp.send(null);
-}
     
     
-    httpGet("./json/input.json",processJson);
-    httpGet("http://xmunch.com/json/sciartlab/summary.json",processJson);
+    httpGet("https://raw.githubusercontent.com/SciArtLab/json-data-repo/master/sciartlab/summary.json",processJson);
     
     
   </script>
