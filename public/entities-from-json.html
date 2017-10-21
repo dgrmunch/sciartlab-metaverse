@@ -1,0 +1,101 @@
+<!--
+
+ "*------------------------------------------------------------------------------*"
+ "|                                                                              |"
+ "|   ███████╗ ██████╗██╗ █████╗ ██████╗ ████████╗    ██╗      █████╗ ██████╗    |"
+ "|   ██╔════╝██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝    ██║     ██╔══██╗██╔══██╗   |"
+ "|   ███████╗██║     ██║███████║██████╔╝   ██║       ██║     ███████║██████╔╝   |"
+ "|   ╚════██║██║     ██║██╔══██║██╔══██╗   ██║       ██║     ██╔══██║██╔══██╗   |"
+ "|   ███████║╚██████╗██║██║  ██║██║  ██║   ██║       ███████╗██║  ██║██████╔╝   |"
+ "|   ╚══════╝ ╚═════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚═╝  ╚═╝╚═════╝    |"
+ "|                                                                              |"
+ "|                    **********  VR Experiments *******                        |"
+ "|                     Twitter:  @dgrmunch  | @sciartlab                        |"
+ "|                     Website:  http://www.sciartlab.com]                      |"
+ "|                                                                              |"
+ "*------------------------------------------------------------------------------*"
+
+Description: 
+
+-->
+
+<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+<script src="https://unpkg.com/aframe-animation-component@^3.2.0/dist/aframe-animation-component.min.js"></script> 
+
+  <script>
+ 
+    function processJson(json){
+      var obj = JSON.parse(json);
+      console.log(obj.description);
+      var sceneEl = document.querySelector('a-scene');
+            
+      for(var i = 0; i< obj.research_lines.length; i++){
+        
+        var entityEl = document.createElement('a-entity');
+        entityEl.setAttribute('geometry', {
+                primitive: 'box',
+                height: 1,
+                width: 1
+              });
+    
+        entityEl.setAttribute('material', {src: obj.research_lines[i].image_url});
+        entityEl.setAttribute('position',  {y: 1, x: (i * 5) - 5, z: -10});
+        entityEl.setAttribute('href',  'index.html');
+        entityEl.setAttribute('onclick', "goToPage('"+entityEl.getAttribute('href')+"')");
+        entityEl.setAttribute('mouseenter', "hoverLink()");
+        sceneEl.appendChild(entityEl);
+
+      }
+      
+    }
+    
+    function httpGet(url, callback)
+    {
+        console.log("Http GET to url: "+url)
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() { 
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send(null);
+    }
+    
+    function goToPage(url)
+    {
+        console.log("Go to page: "+url);
+        window.location=url;
+    }
+    
+      
+    function hoverLink()
+    {
+        console.log("Hover");
+        console.log(this);
+    }
+    
+    
+    httpGet("https://raw.githubusercontent.com/SciArtLab/json-data-repo/master/sciartlab/summary.json",processJson);
+    
+    
+  </script>
+  <a-scene>
+    <a-camera >
+      <a-entity 
+            cursor="fuse: true;fuseTimeout: 2000"
+            position="0 0 -1"
+            geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11"
+            material="color: lightgreen; shader: flat"
+      >
+        
+        <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000"
+               fill="forwards" from="0.1 0.1 0.1" to="2 2 2"></a-animation>
+  
+        <a-animation begin="fusing" easing="ease-in" attribute="scale"
+             fill="backwards" from="2 2 2" to="0.1 0.1 0.1" dur="1000"></a-animation>
+   </a-entity>
+    </a-camera>
+    
+    <a-sky color="black"></a-sky>
+     
+  </a-scene>
