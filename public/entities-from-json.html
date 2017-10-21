@@ -60,7 +60,7 @@ purposes.
         entityEl.setAttribute('material', {src: obj.research_lines[i].image_url});
         
         //The position in the 3D space will be relative to the previous entity
-        entityEl.setAttribute('position',  {y: 1, x: (i * 2) - 2, z: -10});
+        entityEl.setAttribute('position',  {y: 1, x: (i * 2) - 2, z: -5});
         
         //In case there is a url we attach the href and the onclick event to open
         //the link when the user is looking to the entity
@@ -85,20 +85,28 @@ purposes.
   </script>
 
   <a-scene>
+    
+    <!-- Add assets-->
+    <a-assets>
+      <a-asset id="floorImg" src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ffloor.jpg?1490307896453"></a-asset>
+    </a-assets>
+    
     <!-- Add sky to the scene -->
     <a-sky color="black"></a-sky>
     
-    <a-camera >
+    <!-- Add floor to the scene -->
+    <a-plane material="src:#floorImg" rotation="-90 0 0" height="100" width="100" position="0 0 0" scale="1 1 1"></a-plane>
       
+    <!--Camera controls-->
+    <a-camera >
       <!-- Add gaze cursor to control the scene without external controllers  -->
       <a-entity cursor="fuse: true;fuseTimeout: 2000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: lightgreen; shader: flat">
-       
-        <!-- Add gaze cursor to control the scene without external controllers  -->
-        <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="2 2 2"></a-animation>
-        <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="2 2 2" to="0.1 0.1 0.1" dur="1000"></a-animation>
-      
+
+          <!-- Add gaze cursor to control the scene without external controllers  -->
+          <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="2 2 2"></a-animation>
+          <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="2 2 2" to="0.1 0.1 0.1" dur="1000"></a-animation>
+
       </a-entity>
-    
     </a-camera>
      
   </a-scene>
