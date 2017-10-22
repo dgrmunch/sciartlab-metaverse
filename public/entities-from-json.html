@@ -102,15 +102,14 @@ purposes.
       entityContainerEl.appendChild(infoEl);
       
       //Context information which will be displayed when the sphere is hovered
-      var infoTextEl = document.createElement('a-sphere');
+      var infoTextEl = document.createElement('a-text');
       infoTextEl.setAttribute('id', menu_name+'_infoText_'+i);
       infoTextEl.setAttribute('value', obj.elements[i].description);
+      console.log(obj.elements[i].description);
       infoTextEl.setAttribute('align', 'center');
-      infoTextEl.setAttribute('color', '#FFF');
+      infoTextEl.setAttribute('color', 'yellow');
       infoTextEl.setAttribute('visible', 'false');
-      infoTextEl.setAttribute('geometry', 'primitive: plane; width: 1.75');
-      infoTextEl.setAttribute('material', 'color: #333');
-      infoTextEl.setAttribute('position', {y: 0, x: -1, z: 0}); //Relative to the box
+      infoTextEl.setAttribute('position', {y: 2, x: 0, z: 2}); //Relative to the box
          
       //Append the new info element to the entityContainerEl
       entityContainerEl.appendChild(infoTextEl);
