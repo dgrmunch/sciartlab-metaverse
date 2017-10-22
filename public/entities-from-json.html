@@ -38,16 +38,20 @@ purposes.
 <script>
 
   //This will be used as a callback function after calling a REST API
-  function processJson(json){
+  function processJson(json, params){
+    
     var obj = JSON.parse(json);
-    var menu_name = 'research'
-
+    var menu_name = params[0];
+    var x = params[1];
+    var y = params[2];
+    var z = params[3];
+    
     //We select the scene to append the new entities
     var sceneEl = document.querySelector('a-scene');
     
     //We create a reference entity with absolute coordinates
     var refEl = document.createElement('a-entity');
-    refEl.setAttribute('position',  {y: 1, x: -9, z: -5});
+    refEl.setAttribute('position',  {y: y, x: x, z: z});
     refEl.setAttribute('id', menu_name+'_refEl');
     
     //Append the reference entity to the scene
@@ -105,7 +109,6 @@ purposes.
       var infoTextEl = document.createElement('a-text');
       infoTextEl.setAttribute('id', menu_name+'_infoText_'+i);
       infoTextEl.setAttribute('value', obj.elements[i].description);
-      console.log(obj.elements[i].description);
       infoTextEl.setAttribute('align', 'center');
       infoTextEl.setAttribute('color', 'yellow');
       infoTextEl.setAttribute('visible', 'false');
@@ -151,10 +154,26 @@ purposes.
     }
 
   }
+  
+   AFRAME.registerComponent('xm-json-to-menu', {
+        schema: {
+          name: {type: 'string'},
+          url: {type: 'string'},
+          x: {type: 'number'},
+          y: {type: 'number'},
+          z: {type: 'number'}
+         
+        },
+        init: function () {
+          
+          var params = [this.data.name, this.data.x, this.data.y, this.data.z];
+          
+          //Load the JSON with the information of the new entities
+          httpGet(this.data.url,processJson,params);
 
-  //Load the JSON with the information of the new entities
-  httpGet("https://raw.githubusercontent.com/SciArtLab/json-data-repo/master/sciartlab/summary.json",processJson);
-
+        }
+      });
+  
 </script>
 <!-- END JAVASCRIPT -->
 
@@ -172,6 +191,7 @@ purposes.
   <!-- Add lights -->
   <a-light type="ambient" color="white" intensity="1" position="1 10 -3" rotation="0 0 0" scale="1 1 1"></a-light>    
       
+  <a-entity xm-json-to-menu="name: researchLines; url: https://raw.githubusercontent.com/SciArtLab/json-data-repo/master/sciartlab/summary.json; x:-9; y:1; z:-5; ">
   <!-- Add floor to the scene -->
   <a-plane material="src:#floorImg" rotation="-90 0 0" height="100" width="100" position="0 0 0" scale="1 1 1"></a-plane>
 

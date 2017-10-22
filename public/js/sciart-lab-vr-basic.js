@@ -23,13 +23,13 @@
 */
 
 //Basic HTTP Get to request REST APIs or JSON files
-function httpGet(url, callback){
+function httpGet(url, callback, params){
   
     console.log("Http GET to url: "+url)
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
+            callback(xmlHttp.responseText, params);
     }
     xmlHttp.open("GET", url, true);
     xmlHttp.send(null);
