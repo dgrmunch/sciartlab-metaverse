@@ -32,6 +32,8 @@ purposes.
 <!-- JAVASCRIPT -->
 <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
 <script src="https://sciartlab-vr.glitch.me/js/sciart-lab-vr-basic.js"></script>
+<script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+
 
 <script>
 
@@ -80,6 +82,18 @@ purposes.
 
       //TODO HoverLink and add context information
       entityEl.setAttribute('mouseenter', "hoverLink()");
+      
+      //Add a light on the top of the element
+      var lightEl = document.createElement('a-light');
+      lightEl.setAttribute('id', 'research_line_light_'+i);
+      lightEl.setAttribute('type', 'point');
+      lightEl.setAttribute('shadowCameraVisible', 'true');
+      lightEl.setAttribute('color', 'purple');
+      lightEl.setAttribute('intensity', '0.2');
+      lightEl.setAttribute('position', {y: 2, x: 0, z: 0}); //Relative to the box
+      
+      //Append the new light to the entity
+      entityEl.appendChild(lightEl);
 
       //Append the new entity to the reference entity
       refEl.appendChild(entityEl);
@@ -120,8 +134,16 @@ purposes.
   <a-sky color="black"></a-sky>
   
   <!-- Add lights -->
-  <a-light type="point" color="purple" intensity="1" position="3 1 -3" rotation="0 0 0" scale="1 1 1" visible="true" light="type:point;color:purple;intensity:1"></a-light>    
+  <a-light type="ambient" color="white" intensity="1" position="1 10 -3" rotation="0 0 0" scale="1 1 1"></a-light>    
 
+  
+ <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"
+                  event-set__enter="_event: mouseenter; _target: #cylinderText; visible: true"
+                  event-set__leave="_event: mouseleave; _target: #cylinderText; visible: false">
+        <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="0 -0.55 0.55"
+                geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+      </a-cylinder>
+      
   <!-- Add floor to the scene -->
   <a-plane material="src:#floorImg" rotation="-90 0 0" height="100" width="100" position="0 0 0" scale="1 1 1"></a-plane>
 
@@ -131,8 +153,8 @@ purposes.
     <a-entity cursor="fuse: true;fuseTimeout: 2000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: lightgreen; shader: flat">
 
         <!-- Add gaze cursor to control the scene without external controllers  -->
-        <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="2 2 2"></a-animation>
-        <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="2 2 2" to="0.1 0.1 0.1" dur="1000"></a-animation>
+        <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="1 1 1"></a-animation>
+        <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="1 1 1" to="0.1 0.1 0.1" dur="1000"></a-animation>
 
     </a-entity>
   </a-camera>
