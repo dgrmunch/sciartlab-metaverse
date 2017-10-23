@@ -32,7 +32,6 @@ function processSceneContent(html, selector){
   var child = document.createElement('a-entity');
   child.innerHTML = html;
   document.querySelector(selector).appendChild(child);
-
 }
 
 //This will be used as a callback function after calling a REST API in the xm-
