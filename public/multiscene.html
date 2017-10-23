@@ -38,24 +38,5 @@
   
   </a-scene>
 
-  <script type="text/javascript">
-
-  function goToScene(sceneId) {
-    
-    var scenes = document.getElementsByClassName("scene");
-    console.log('The current space has '+scenes.length+' scenes.');
-    
-    for (var i = 0; i < scenes.length; i++){
-      scenes[i].setAttribute('visible', 'false');
-    }
-    
-    console.log('Show scene '+sceneId);
-    
-    document.getElementById('scene_'+sceneId).setAttribute('visible', 'true');
-    
-  }
-  
-  </script>
-
 </body>
 </html>

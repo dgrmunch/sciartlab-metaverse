@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SciArtLab.com VR</title>
+    <meta name="description" content="SciArtLab.com VR">
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script>
+     
+      AFRAME.registerComponent('log', {
+        schema: {type: 'string'},
+        init: function () {
+          var stringToLog = this.data;
+          console.log("Log: "+stringToLog);
+        }
+      });
+      
+      AFRAME.registerComponent('create-entities', {
+        schema: {type: 'number'},
+        init: function () {
+          var number = this.data;
+          var sceneEl = document.querySelector('a-scene');
+            
+          for(var i = 0; i< number; i++){
+            
+            var entityEl = document.createElement('a-entity');
+            entityEl.setAttribute('geometry', {
+                    primitive: 'box',
+                    height: 2,
+                    width: 2
+                  });
+            
+            entityEl.setAttribute('material', 'color', 'green');
+            entityEl.setAttribute('position',  {y: 1, x: (i * 5) - 5, z: -10});
+            sceneEl.appendChild(entityEl);
+            
+          }
+          
+        }
+      });
+    </script>
+  </head>
+  <body>
+
+    <a-scene>
+      <a-assets>
+        <img id="mountains" crossorigin="anonymous" src="https://cdn.aframe.io/link-traversal/thumbs/mountains.png">
+      </a-assets>
+       <a-sky  log="Se ha cargado el cielo"  color="black"></a-sky>
+       <a-entity create-entities="30" ></a-entity>
+       <a-box dance position="1 5 -5"></a-box>
+      
+       <a-plane log="Se ha cargado el plano"  src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ffloor.jpg?1490307896453" rotation="-90 0 0" height="100" width="100" position="0 0 0" scale="1 1 1" visible="true" material="src:https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ffloor.jpg?1490307896453" geometry="primitive:plane;height:100;width:100"></a-plane>
+      
+    </a-scene>
+         </body>
+</html>

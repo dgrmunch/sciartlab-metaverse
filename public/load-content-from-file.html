@@ -19,14 +19,6 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-* Description: 
-
-Loading entities from an external JSON file. It can be used to create menus
-or dynamic visualizations based on REST APIs and external sources.
-Initially I had this in mind as a way to access the SciArt Lab projects (information, 
-pictures, links) directly from the Metaverse. But it will be used for different 
-purposes.
-
 -->
 
 
@@ -40,13 +32,16 @@ purposes.
     <script src="https://sciartlab-vr.glitch.me/js/sciart-lab-vr-basic.js"></script>
     <script src="https://sciartlab-vr.glitch.me/js/sciart-xm-aframe-components.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://samsunginter.net/a-frame-components/dist/ocean-plane.js"></script>
   </head>
   <body>
     <!-- A-FRAME SCENE -->
     <a-scene>
       <a-assets>
-        <a-mixin id="checkpoint"></a-mixin>
-        <a-mixin id="checkpoint-hovered" color="#6CEEB5"></a-mixin>
+        <a-mixin id="checkpoint" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
+        <a-mixin id="checkpoint-hovered" opacity="0.1" material="color:yellow"></a-mixin>
+        <a-asset id="metal" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F356976-admin.jpg?1508784278159"></a-asset>
+        <a-asset id="wood" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Fwildtextures_vertical-raw-wooden-boards.jpg?1508784387983"></a-asset>
         <a-asset id="floorImg" src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ffloor.jpg?1490307896453"></a-asset>
         <a-asset id="jsonMenu1" src="https://raw.githubusercontent.com/SciArtLab/json-data-repo/master/sciartlab/summary.json"></a-asset>
         <a-asset id="xmContent1" src="https://sciartlab-vr.glitch.me/content.html"></a-asset>
@@ -71,8 +66,7 @@ purposes.
       <!-- Add default lights -->
       <a-light type="ambient" color="white" intensity="1" position="1 10 -3" rotation="0 0 0" scale="1 1 1"></a-light>    
 
-      <!-- Use the SciArt Lab's xmunch component: xm-json-to-menu -->
-      <a-entity xm-json-to-menu="id: researchLinesMenu1; url: #jsonMenu1; x:-9; y:1; z:-4; "></a-entity>
+      <!-- Use the SciArt Lab's xmunch component: xm-content-from-file-->
       <a-entity id="xm_content_1" position="0 0 -5.2" xm-content-from-file="url: #xmContent1;"></a-entity>
 
       <!-- Add floor to the scene -->
@@ -81,10 +75,9 @@ purposes.
 
       <!-- Checkpoints -->
       <a-entity position="1 0 1">
-        <a-cylinder checkpoint="offset: 0 1.6 0" radius="1" height="0.1" opacity="0.2" position="0 0 -5.2" color="yellow"></a-cylinder>
-        <a-cylinder checkpoint="offset: 0 1.6 0" radius="1" height="0.1" opacity="0.2" position="3 0 0" color="yellow"></a-cylinder>
-        <a-cylinder checkpoint="offset: 0 1.6 0" radius="1" height="0.1" opacity="0.2" position="-3 0 0" color="yellow"></a-cylinder>
-      </a-entity>
+        <a-entity mixin="checkpoint" position="0 2 -5.2"></a-entity>
+        <a-entity mixin="checkpoint" position="3 5 0"></a-entity>
+        </a-entity>
 
     </a-scene>
     <!-- END A-FRAME SCENE -->

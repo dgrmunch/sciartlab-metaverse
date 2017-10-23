@@ -43,5 +43,19 @@ AFRAME.registerComponent('xm-json-to-menu', {
     }
   });
 
+  
+AFRAME.registerComponent('xm-content-from-file', {
+    schema: {
+      url: {type: 'string'}
+    },
+    init: function () {
+      //Load the scene content from a plain text file
+      httpGet(document.querySelector(this.data.url).getAttribute('src'),processSceneContent,"#"+this.el.id);
+
+    }
+  });
+
+
+
 
 console.log('SciartLab Metaverse Components loaded. More info: http://www.sciartlab.com | @dgrmunch');

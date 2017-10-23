@@ -1,0 +1,30 @@
+
+<html>
+  <head>
+    <title>An island in the sea</title>
+    <script src="//aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <script src="//samsunginter.net/a-frame-components/dist/ocean-plane.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <assets>
+        <a-asset-item id="ocean-sfx" src="https://archive.org/download/aporee_2057_2974/atlanticFinisterre1002.ogg"></a-asset-item>
+        <a-asset-item id="guitar-song" src="https://archive.org/download/ocean_shores/ocean_shores.ogg"></a-asset-item>
+        <img id="water-normal" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg" crossorigin="anonymous" />
+        <img id="cgsky" src="https://gateway.ipfs.io/ipfs/QmXw1LKDhMe2HYz2pMzfEwgpc6ddPfySo3M63mhvvtiUJ6/ipfs-aframe/CGSkies_0343_free_ER.jpg" crossorigin="anonymous" />
+
+      </assets>
+
+      <a-camera rotation="0 -50 0"></a-camera>
+      <a-ocean-plane scale="0.5 0.5 0.5" position="0 1.08 0" material="normalMap: #water-normal; sphericalEnvMap: #cgsky;"></a-ocean-plane>
+
+      <a-entity position="0 1.4 0">
+        <a-entity position="0.86 0 0.216" obj-model="obj: #island-obj; mtl: #island-mtl" sound="src:#ocean-sfx; autoplay: true; loop: true"></a-entity>
+        <a-entity position="1 0 0" sound="src:#guitar-song; autoplay: true"></a-entity>
+      </a-entity>
+      <a-sky src="#cgsky" position="0 -1 0" rotation="0 -90 0"></a-sky>
+      <a-entity light="color: #4c7cc2; intensity: 0.4; type: ambient;"></a-entity>
+    	<a-entity light="color: #fffab7; intensity: 1.5" position="0 1 -5" id="sun"></a-entity>
+    </a-scene>
+  </body>
+</html>

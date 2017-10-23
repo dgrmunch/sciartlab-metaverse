@@ -26,6 +26,15 @@
 
 // FUNCTIONS AND UTILS 
 
+//This function will load an a-scene HTML content and will add it
+//to the specified entity
+function processSceneContent(html, selector){
+  var child = document.createElement('a-entity');
+  child.innerHTML = html;
+  document.querySelector(selector).appendChild(child);
+
+}
+
 //This will be used as a callback function after calling a REST API in the xm-
 function processJson(json, params){
 
@@ -163,5 +172,22 @@ function goToPage(url){
     console.log("Go to page: "+url);
     window.location=url;
 }
+
+
+//This function goes to the scene called "scene_"+sceneId
+  function goToScene(sceneId) {
+    
+    var scenes = document.getElementsByClassName("scene");
+    console.log('The current space has '+scenes.length+' scenes.');
+    
+    for (var i = 0; i < scenes.length; i++){
+      scenes[i].setAttribute('visible', 'false');
+    }
+    
+    console.log('Show scene '+sceneId);
+    
+    document.getElementById('scene_'+sceneId).setAttribute('visible', 'true');
+    
+  }
 
 console.log('SciartLab Metaverse Library loaded. More info: http://www.sciartlab.com | @dgrmunch');
