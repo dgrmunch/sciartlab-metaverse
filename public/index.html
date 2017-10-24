@@ -54,11 +54,18 @@
           'rotation',
           {
             selector: '.head',
-            component: 'material'
+            component: 'material',
+            property: 'color'
+          },
+          {
+            selector: '.nametag',
+            component: 'text',
+            property: 'value'
           }
         ]
       };
       NAF.schemas.add(avatarSchema);
+      
     </script>
     
   </head>
@@ -66,13 +73,19 @@
   <body>
     
     <!-- A-FRAME SCENE -->
-    <a-scene networked-scene="audio: true;">
+    <a-scene networked-scene="audio: true; room: public;">
       
       <!-- ASSETS -->
       <a-assets>
         
+        <!-- 3D RESOURCES -->
+        <a-asset-item id="avatarObj" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FMask.obj?1508877731464"></a-asset-item>
+        <a-asset-item id="avatarMtl" color="red" opacity="0.5"></a-asset-item>
+        
         <!-- MIXINS -->
         <a-mixin id="checkpoint" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
+        <a-mixin id="checkpoint-sand" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
+        
         
         <!-- TEXTURES AND IMAGES -->
         <img id="metal" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F356976-admin.jpg?1508784278159" />
@@ -81,44 +94,15 @@
 
       <!-- Avatar -->
         <script id="avatar-template" type="text/html">
+         
           <a-entity class="avatar">
-            <a-sphere class="head"
-              color="#5985ff"
-              scale="0.45 0.5 0.4"
-              random-color
-            ></a-sphere>
-            <a-entity class="face"
-              position="0 0.05 0"
-            >
-              <a-sphere class="eye"
-                color="#efefef"
-                position="0.16 0.1 -0.35"
-                scale="0.12 0.12 0.12"
-              >
-                <a-sphere class="pupil"
-                  color="#000"
-                  position="0 0 -1"
-                  scale="0.2 0.2 0.2"
-                ></a-sphere>
-              </a-sphere>
-              <a-sphere class="eye"
-                color="#efefef"
-                position="-0.16 0.1 -0.35"
-                scale="0.12 0.12 0.12"
-              >
-                <a-sphere class="pupil"
-                  color="#000"
-                  position="0 0 -1"
-                  scale="0.2 0.2 0.2"
-                ></a-sphere>
-              </a-sphere>
-            </a-entity>
+            <a-entity obj-model="obj: #avatarObj; mtl: #avatarMtl" scale="0.2 0.2 0.2"></a-entity>
           </a-entity>
         </script>
       </a-assets>
 
       <!-- CAMERA -->
-      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
+      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate" wasd-controls>
 
         <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -0.2" geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.011" material="color: darkred; shader: flat">
 
@@ -142,21 +126,23 @@
       <!-- Add platforms -->
       
       <a-entity id="platforms">
+      
           <a-entity mixin="checkpoint" position="0 2 -5.2"></a-entity>
           <a-entity mixin="checkpoint" position="3 5 0"></a-entity>
-          <a-entity mixin="checkpoint" position="0 2 -5.2" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
-          <a-entity mixin="checkpoint" position="3 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
-          <a-entity mixin="checkpoint" position="3 4.87 -1.357" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
-          <a-entity mixin="checkpoint" position="3.507 4.703 -1.357" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
-          <a-entity mixin="checkpoint" position="3.507 4.703 -2.838" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
-          <a-entity mixin="checkpoint" position="3.507 3.593 -1.893" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
-          <a-entity mixin="checkpoint" position="3 5 -0.877" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
-          <a-entity mixin="checkpoint" position="3.49 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+          <a-entity mixin="checkpoint" position="0 2 -5.2"></a-entity>
+          <a-entity mixin="checkpoint" position="3 5 0"></a-entity>
+          <a-entity mixin="checkpoint" position="3 4.87 -1.357"></a-entity>
+          <a-entity mixin="checkpoint" position="3.507 4.703 -1.357"></a-entity>
+          <a-entity mixin="checkpoint" position="3.507 4.703 -2.838"></a-entity>
+          <a-entity mixin="checkpoint" position="3.507 3.593 -1.893"></a-entity>
+          <a-entity mixin="checkpoint" position="3 5 -0.877"></a-entity>
+          <a-entity mixin="checkpoint-sand" position="3.49 5 0"></a-entity>
       </a-entity>
 
       <!--  END SCENE CONTENT-->
       
     </a-scene>
     <!-- END A-FRAME SCENE -->
+   
   </body>
 </html>

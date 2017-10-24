@@ -55,6 +55,13 @@ AFRAME.registerComponent('xm-content-from-file', {
     }
   });
 
+  
+AFRAME.registerComponent('ask-for-name', {
+    init: function () {
+      askForName(this.el);
+    }
+  });
+
 
 
 

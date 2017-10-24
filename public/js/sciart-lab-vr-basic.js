@@ -189,4 +189,23 @@ function goToPage(url){
     
   }
 
+
+   function askForName(element) {
+    var username = 'user-' + makeId(5).toLowerCase();
+    username = prompt('What is your name?', username);
+    element.setAttribute('text', 'value', username);
+
+    document.querySelector('a-scene').components['networked-scene'].connect();
+  }
+
+  function makeId(length) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < length; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  }
+
 console.log('SciartLab Metaverse Library loaded. More info: http://www.sciartlab.com | @dgrmunch');
