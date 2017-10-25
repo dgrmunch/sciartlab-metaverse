@@ -36,11 +36,10 @@
     <script src="https://sciartlab-vr.glitch.me/js/sciart-xm-aframe-components.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <script src="https://samsunginter.net/a-frame-components/dist/ocean-plane.js"></script>
-    <script src="https://dist.3d.io/3dio-js/1.x.x/3dio.min.js"></script>
+    
     
     <!-- WebRTC -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
-    <script src="easyrtc/easyrtc.js"></script>
     <script src="https://unpkg.com/networked-aframe@^0.2.0/dist/networked-aframe.min.js"></script>
     <script src="/js/spawn-in-circle.component.js"></script>
     
@@ -84,13 +83,14 @@
         
         <!-- MIXINS -->
         <a-mixin id="checkpoint" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
-        <a-mixin id="checkpoint-sand" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
+        <a-mixin id="checkpoint-sand" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#sand" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
         
         
         <!-- TEXTURES AND IMAGES -->
         <img id="metal" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F356976-admin.jpg?1508784278159" />
         <img id="sea" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg" crossorigin="anonymous" />
         <img id="sky" src="https://gateway.ipfs.io/ipfs/QmXw1LKDhMe2HYz2pMzfEwgpc6ddPfySo3M63mhvvtiUJ6/ipfs-aframe/CGSkies_0343_free_ER.jpg" crossorigin="anonymous" />
+        <img id="sand" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Fplayground_sand_texture_by_thesilentnight-d3n70sx-e1403957101770.jpg?1508790873966" crossorigin="anonymous" />
 
       <!-- Avatar -->
         <script id="avatar-template" type="text/html">
@@ -102,7 +102,7 @@
       </a-assets>
 
       <!-- CAMERA -->
-      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate" wasd-controls>
+      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
 
         <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -0.2" geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.011" material="color: darkred; shader: flat">
 
@@ -126,7 +126,6 @@
       <!-- Add platforms -->
       
       <a-entity id="platforms">
-      
           <a-entity mixin="checkpoint" position="0 2 -5.2"></a-entity>
           <a-entity mixin="checkpoint" position="3 5 0"></a-entity>
           <a-entity mixin="checkpoint" position="0 2 -5.2"></a-entity>
@@ -135,9 +134,13 @@
           <a-entity mixin="checkpoint" position="3.507 4.703 -1.357"></a-entity>
           <a-entity mixin="checkpoint" position="3.507 4.703 -2.838"></a-entity>
           <a-entity mixin="checkpoint" position="3.507 3.593 -1.893"></a-entity>
-          <a-entity mixin="checkpoint" position="3 5 -0.877"></a-entity>
-          <a-entity mixin="checkpoint-sand" position="3.49 5 0"></a-entity>
       </a-entity>
+      
+      
+      <a-entity id="islands">
+        <a-entity mixin="checkpoint-sand" position="1.384 1.131 5.553"></a-entity>
+      </a-entity>  
+ 
 
       <!--  END SCENE CONTENT-->
       
