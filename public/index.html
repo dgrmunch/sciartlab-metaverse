@@ -19,6 +19,8 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
+Description: Entry scene to the Sciart Lab experiments
+//TODO: Upload and pin all resources in IPFS
 -->
 
 
@@ -36,9 +38,9 @@
     <script src="https://sciartlab-vr.glitch.me/js/sciart-xm-aframe-components.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <script src="https://samsunginter.net/a-frame-components/dist/ocean-plane.js"></script>
+    <!--<script src="https://ideaspacevr.github.io/aframe-particle-system-component/dist/aframe-particle-system-component.min.js"></script> -->
     <script src="https://dist.3d.io/3dio-js/1.x.x/3dio.min.js"></script> 
 
-    
     
     <!-- WebRTC -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
@@ -78,13 +80,10 @@
         <!-- 3D RESOURCES -->
         <a-asset-item id="avatarObj" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FMask.obj?1508877731464"></a-asset-item>
         <a-asset-item id="avatarMtl" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FMask.mtl?1508877731244" opacity="0.5"></a-asset-item>
-        <a-asset-item id="platformObj" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Fscene.gltf?1509056986444"></a-asset-item>
-       
         
         <!-- MIXINS -->
-        <a-mixin id="checkpoint" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
-        <a-mixin id="checkpoint-sand" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#sand" checkpoint="offset: 0 0.5 0" radius="0.5"></a-mixin>
-        
+        <a-mixin id="checkpoint" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 1 0" radius="0.5"></a-mixin>
+        <a-mixin id="checkpoint-sand" geometry="primitive: box; height:1; width:1; depth: 10;" material="src:#sand" checkpoint="offset: 0 1 0" radius="0.5"></a-mixin>
         
         <!-- TEXTURES AND IMAGES -->
         <img id="metal" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F356976-admin.jpg?1508784278159" />
@@ -102,7 +101,7 @@
       </a-assets>
 
       <!-- CAMERA -->
-      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
+      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 2.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
 
         <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: yellow; shader: flat">
 
@@ -114,20 +113,21 @@
       </a-entity>
 
       <!-- SCENE CONTENT-->
+      
+      <!-- Add particles to the environment-->
+      <!--<a-entity position="0 2.25 -15" particle-system="preset: dust"></a-entity>-->
 
       <!-- Add sky and floor to the scene -->
       <a-sky src="#sky" position="0 -1 0" rotation="0 -90 0"></a-sky>
       <a-ocean-plane scale="0.5 0.5 0.5" position="0 1.08 0" material="normalMap: #sea; sphericalEnvMap: #sky;"></a-ocean-plane>
 
       <!-- Add default lights -->
-      <a-entity light="color: #4c7cc2; intensity: 0.4; type: ambient;"></a-entity>      
-      <a-entity light="color: #fffab7; intensity: 1.5" position="0 1 -5" id="sun"></a-entity>
+      <a-entity light="color: #orange; intensity: 0.4; type: ambient;"></a-entity>      
+      <a-entity light="color: orange; intensity: 1.5" position="0 1 -5" id="sun"></a-entity>
 
       <!-- Add platforms -->
       
 
-      <a-entity id="platform" obj-model="obj: #platformObj;" position="0 2 -5.2"></a-entity>
-      
       <a-entity id="platforms">
           <a-entity mixin="checkpoint" position="0 2 -5.2">
             <a-animation attribute="position"
@@ -156,6 +156,17 @@
                repeat="indefinite" direction="alternate"></a-animation>
           </a-entity>
           <a-entity mixin="checkpoint" position="3.507 3.593 -1.893"></a-entity>
+      </a-entity>
+      
+      <a-entity id="platforms2" position="-3 4 1" rotation="0 0 0" scale="1 1 1" visible="true">
+        <a-entity mixin="checkpoint" position="0 2 -5.2" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+        <a-entity mixin="checkpoint" position="3 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3 4.87 -1.357" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.507 4.703 -1.357" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.507 4.703 -2.838" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.507 3.593 -1.893" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3 5 -0.877" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.49 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
       </a-entity>
       
       
