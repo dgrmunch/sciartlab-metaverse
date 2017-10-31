@@ -82,8 +82,9 @@ Description: Entry scene to the Sciart Lab experiments
         
         <!-- MIXINS -->
         <a-mixin id="checkpoint" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 1 0" radius="0.5"></a-mixin>
-        <a-mixin id="checkpoint-sand" geometry="primitive: box; height:1; width:1; depth: 10;" material="src:#sand" checkpoint="offset: 0 1 0" radius="0.5"></a-mixin>
-        <s-mixin></s-mixin>
+        <a-mixin id="checkpoint-wood" geometry="primitive: box; height:1; width:1; depth: 10;" material="src:#sand" checkpoint="offset: 0 1 0" radius="0.5"></a-mixin>
+        <a-mixing id="rotate-on-click" attribute="rotation" begin="click" fill="forwards" dur="1000" to="0 360 0"></a-mixin>
+        
         
         <!-- TEXTURES AND IMAGES -->
         <img id="metal" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F356976-admin.jpg?1508784278159" />
@@ -124,7 +125,7 @@ Description: Entry scene to the Sciart Lab experiments
       <a-entity light="color: orange; intensity: 1.5" position="0 1 -5" id="sun"></a-entity>
 
       <!-- Add platforms -->
-      <a-entity id="platforms">
+      <a-entity id="metal-platforms-1">
           <a-entity mixin="checkpoint" position="0 2 -5.2">
             <a-animation attribute="position"
                dur="10000"
@@ -154,7 +155,7 @@ Description: Entry scene to the Sciart Lab experiments
           <a-entity mixin="checkpoint" position="3.507 3.593 -1.893"></a-entity>
       </a-entity>
       
-      <a-entity id="platforms2" position="-3 4 1" rotation="0 0 0" scale="1 1 1" visible="true">
+      <a-entity id="metal-platforms-2" position="-3 4 1" rotation="0 0 0" scale="1 1 1" visible="true">
         <a-entity mixin="checkpoint" position="0 2 -5.2" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
         <a-entity mixin="checkpoint" position="3 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
          <a-entity mixin="checkpoint" position="3 4.87 -1.357" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
@@ -165,16 +166,13 @@ Description: Entry scene to the Sciart Lab experiments
          <a-entity mixin="checkpoint" position="3.49 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
       </a-entity>
       
-      
-      <a-entity id="islands">
-        <a-entity mixin="checkpoint-sand" position="1.384 1.131 5.553">
-          <a-animation attribute="rotation"
-               dur="10000"
-               fill="forwards"
-               to="0 360 0"
-               repeat="indefinite"></a-animation>
+      <a-entity id="wood-platforms">
+        <a-entity mixin="checkpoint-wood" position="1.384 1.131 5.553">
+          <a-animation mixin="rotate-on-click"></a-animation>
         </a-entity>
-         <a-entity mixin="checkpoint-sand" position="10.384 1.131 10.553"></a-entity>
+         <a-entity mixin="checkpoint-wood" position="10.384 1.131 10.553">
+          <a-animation mixin="rotate-on-click"></a-animation>
+        </a-entity>
       </a-entity>  
 
       <a-obj-model src="#lab-obj" position="9.324 4.956 10.55" scale="0.020 0.020 0.010" rotation="0.000 -148.130 0.000"  mixin="checkpoint"></a-obj-model>
