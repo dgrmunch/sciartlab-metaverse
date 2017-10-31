@@ -19,7 +19,7 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-Description: Testing gaze flying 
+Description: Cold scene for the Sciart Lab experiments
 //TODO: Upload and pin all resources in IPFS
 -->
 
@@ -45,7 +45,7 @@ Description: Testing gaze flying
   <body>
     
     <!-- A-FRAME SCENE -->
-    <a-scene>
+    <a-scene fog="color: #AAB; far: 30; near: 0; density: 0">
       
       <!-- ASSETS -->
       <a-assets>
@@ -62,7 +62,7 @@ Description: Testing gaze flying
         <!-- TEXTURES AND IMAGES -->
         <img id="metal" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F356976-admin.jpg?1508784278159" />
         <img id="sea" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg" crossorigin="anonymous" />
-        <img id="sky" src="https://gateway.ipfs.io/ipfs/QmXw1LKDhMe2HYz2pMzfEwgpc6ddPfySo3M63mhvvtiUJ6/ipfs-aframe/CGSkies_0343_free_ER.jpg" crossorigin="anonymous" />
+        <img id="sky" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F460-1990x852.jpg?1509486470339" crossorigin="anonymous" />
         <img id="sand" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Fplayground_sand_texture_by_thesilentnight-d3n70sx-e1403957101770.jpg?1508790873966" crossorigin="anonymous" />
         
        </a-assets>
@@ -70,7 +70,7 @@ Description: Testing gaze flying
       <!-- CAMERA -->
       <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 2.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
 
-        <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: red; shader: flat">
+        <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: white; shader: flat">
 
         <!-- Add gaze cursor to control the scene without external controllers  -->
         <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="1 1 1"></a-animation>
@@ -82,12 +82,12 @@ Description: Testing gaze flying
       <!-- SCENE CONTENT-->
       
       <!-- Add sky and floor to the scene -->
-      <a-sky src="#sky" position="0 -1 0" rotation="0 -90 0"></a-sky>
+      <a-sky color="blue" ></a-sky>
       <a-ocean-plane scale="0.5 0.5 0.5" position="0 1.08 0" material="normalMap: #sea; sphericalEnvMap: #sky;"></a-ocean-plane>
 
       <!-- Add default lights -->
-      <a-entity light="color: orange; intensity: 0.4; type: ambient;"></a-entity>      
-      <a-entity light="color: orange; intensity: 1.5" position="0 1 -5" id="sun"></a-entity>
+      <a-entity light="color: lightblue; intensity: 0.4; type: ambient;"></a-entity>      
+      <a-entity light="color: lightblue; intensity: 1.5" position="0 1 -5" id="sun"></a-entity>
 
       <!-- Add platforms -->
       <a-entity id="metal-platforms-1">
