@@ -1,0 +1,41 @@
+<!--
+
+ 
+ "*------------------------------------------------------------------------------*"
+ "|                                                                              |"
+ "|   ███████╗ ██████╗██╗ █████╗ ██████╗ ████████╗    ██╗      █████╗ ██████╗    |"
+ "|   ██╔════╝██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝    ██║     ██╔══██╗██╔══██╗   |"
+ "|   ███████╗██║     ██║███████║██████╔╝   ██║       ██║     ███████║██████╔╝   |"
+ "|   ╚════██║██║     ██║██╔══██║██╔══██╗   ██║       ██║     ██╔══██║██╔══██╗   |"
+ "|   ███████║╚██████╗██║██║  ██║██║  ██║   ██║       ███████╗██║  ██║██████╔╝   |"
+ "|   ╚══════╝ ╚═════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚═╝  ╚═╝╚═════╝    |"
+ "|                                                                              |"
+ "|                      SciartLab Metaverse Components                          |"
+ "|                                                                              |"
+ "|                    **********  VR Experiments *******                        |"
+ "|                                                                              |"
+ "|                     Twitter:  @dgrmunch  | @sciartlab                        |"
+ "|                     Website:  http://www.sciartlab.com]                      |"
+ "|                                                                              |"
+ "*------------------------------------------------------------------------------*"
+
+Description: Testing progressive-controls with cardboard
+//TODO: Upload and pin all resources in IPFS
+-->
+
+<head>
+  <title>Example</title>
+  <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/super-hands@2.1.0/dist/super-hands.min.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    <a-assets></a-assets>
+    <a-entity progressive-controls="objects: a-box"></a-entity>
+    <a-sky color="gray"></a-sky>
+    <a-box grabbable dropppable color="red" position="1 0 -1"></a-box>
+    
+  </a-scene>
+</body>

@@ -1,0 +1,88 @@
+<!--
+
+ 
+ "*------------------------------------------------------------------------------*"
+ "|                                                                              |"
+ "|   ███████╗ ██████╗██╗ █████╗ ██████╗ ████████╗    ██╗      █████╗ ██████╗    |"
+ "|   ██╔════╝██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝    ██║     ██╔══██╗██╔══██╗   |"
+ "|   ███████╗██║     ██║███████║██████╔╝   ██║       ██║     ███████║██████╔╝   |"
+ "|   ╚════██║██║     ██║██╔══██║██╔══██╗   ██║       ██║     ██╔══██║██╔══██╗   |"
+ "|   ███████║╚██████╗██║██║  ██║██║  ██║   ██║       ███████╗██║  ██║██████╔╝   |"
+ "|   ╚══════╝ ╚═════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚═╝  ╚═╝╚═════╝    |"
+ "|                                                                              |"
+ "|                      SciartLab Metaverse Components                          |"
+ "|                                                                              |"
+ "|                    **********  VR Experiments *******                        |"
+ "|                                                                              |"
+ "|                     Twitter:  @dgrmunch  | @sciartlab                        |"
+ "|                     Website:  http://www.sciartlab.com]                      |"
+ "|                                                                              |"
+ "*------------------------------------------------------------------------------*"
+
+Description: Sound component with ios compatibility
+//TODO: Upload and pin all resources in IPFS
+-->
+<html>
+<head>
+  
+  <title>SciArtLab Sound VR experiments</title>
+  <script src="https://webvr.donmccurdy.com/aframe-extras.js"></script>
+  <script src="js/howler.js"></script>
+
+  <script>
+    
+    //SOUND SPRITE
+    var sound = new Howl({
+      src: ['https://archive.org/download/testmp3testfile/mpthreetest.mp3'],
+      volume: 1,
+      sprite: 
+            {
+             sound_1: [0, 1000],
+             sound_2: [4000, 1000],
+             sound_3: [6000, 5000]
+            }
+      });
+  
+    //KEY-COMPONENT MAPPING
+    var map = {};
+    map['38'] = 'sound_1';
+    
+    //KEY LISTENERS  
+    document.onkeydown = function(e) {  
+        console.log(e.keyCode + " - " +map[e.keyCode]);
+        if(map[e.keyCode] != undefined)
+          sound.play(map[e.keyCode]);
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <a-scene>
+ 
+      <!-- CAMERA -->
+      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 2.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
+
+        <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: white; shader: flat">
+
+        <!-- Add gaze cursor to control the scene without external controllers  -->
+        <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="1 1 1"></a-animation>
+        <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="1 1 1" to="0.1 0.1 0.1" dur="1000"></a-animation>
+
+        </a-entity>
+      </a-entity>
+
+      <!-- SCENE CONTENT-->
+    
+      <!-- BACKGROUND -->
+      <a-sky color="pink"></a-sky>
+    
+      <a-box color="red" position="-10 1 -10" onclick="sound.play('sound_1');"> </a-box>
+      <a-box color="green" position="0 1 -10" onclick="sound.play('sound_2');"> </a-box>
+      <a-box color="blue" position="10 1 -10" onclick="sound.play('sound_3');"> </a-box>
+  
+  </a-scene>
+
+</body>
+</html>
