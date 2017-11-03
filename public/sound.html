@@ -19,7 +19,7 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-Description: Sound component with ios compatibility
+Description: Instrument component with ios compatibility
 //TODO: Upload and pin all resources in IPFS
 -->
 <html>
@@ -33,26 +33,48 @@ Description: Sound component with ios compatibility
     
     //SOUND SPRITE
     var sound = new Howl({
-      src: ['https://archive.org/download/testmp3testfile/mpthreetest.mp3'],
+      src: ['https://ia600704.us.archive.org/16/items/AlphabetSongSimplePianoSolo/TinwkleTwinklePianoSoloSimple.mp3'],
       volume: 1,
       sprite: 
             {
-             sound_1: [0, 1000],
-             sound_2: [4000, 1000],
-             sound_3: [6000, 5000]
+             sound_1: [0, 300],
+             sound_2: [1200, 300],
+             sound_3: [3000, 300]
             }
       });
   
     //KEY-COMPONENT MAPPING
+    
+    //KEYBOARD NUMBERS
     var map = {};
-    map['38'] = 'sound_1';
+    map['49'] = 'box_1';
+    map['50'] = 'box_2';
+    map['51'] = 'box_3';
+    map['52'] = 'box_4';
+    map['53'] = 'box_5';
+    map['54'] = 'box_6';
+    map['55'] = 'box_7';
+    map['56'] = 'box_8';
+    map['57'] = 'box_9';
+    
+    //MAKEY MAKEY (TESTNG)
+    map['87'] = 'box_1';
+    map['65'] = 'box_2';
+    map['68'] = 'box_3';
     
     //KEY LISTENERS  
     document.onkeydown = function(e) {  
         console.log(e.keyCode + " - " +map[e.keyCode]);
         if(map[e.keyCode] != undefined)
-          sound.play(map[e.keyCode]);
+         document.getElementById(map[e.keyCode]).click();
     }
+    
+    //LOGIC
+    function playSound(soundId){
+      console.log(soundId);
+      sound.play(soundId);  
+    }
+    
   </script>
 
 </head>
@@ -60,16 +82,18 @@ Description: Sound component with ios compatibility
 <body>
 
   <a-scene>
- 
+    
+      <!-- ASSETS -->
+       <a-assets>
+       
+         <!-- MIXINS -->
+        <a-mixin id="touched" dur="100" attribute="scale" begin="click" fill="forwards" to="1 1.9 1"></a-mixin>
+      
+      </a-assets>
+    
       <!-- CAMERA -->
       <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 2.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
-
-        <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: white; shader: flat">
-
-        <!-- Add gaze cursor to control the scene without external controllers  -->
-        <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="1 1 1"></a-animation>
-        <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="1 1 1" to="0.1 0.1 0.1" dur="1000"></a-animation>
-
+        <a-entity cursor="fuse: true;fuseTimeout: 0.001" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: white; shader: flat">
         </a-entity>
       </a-entity>
 
@@ -78,9 +102,15 @@ Description: Sound component with ios compatibility
       <!-- BACKGROUND -->
       <a-sky color="pink"></a-sky>
     
-      <a-box color="red" position="-10 1 -10" onclick="sound.play('sound_1');"> </a-box>
-      <a-box color="green" position="0 1 -10" onclick="sound.play('sound_2');"> </a-box>
-      <a-box color="blue" position="10 1 -10" onclick="sound.play('sound_3');"> </a-box>
+      <a-box id="box_1" color="red" position="-1 1 2" onclick="playSound('sound_1');"> 
+          <a-animation mixin="touched"></a-animation>
+      </a-box>
+      <a-box id="box_2" color="green" position="0.2 1 2" onclick="playSound('sound_2');">
+        <a-animation mixin="touched"></a-animation>
+      </a-box>
+      <a-box id="box_3" color="blue" position="1.4 1 2" onclick="playSound('sound_3');">
+        <a-animation mixin="touched"></a-animation>
+      </a-box>
   
   </a-scene>
 
