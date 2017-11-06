@@ -243,6 +243,8 @@ function goToPage(url){
       console.warn = console.log;
       console.error = console.log;
       console.info = console.log;
+      console.timeEnd = console.log;
+      console.time = console.log;
       window.console = console;
       
       consoleEl.setAttribute('value', '\n ** a-terminal | sciartLab.com **');
