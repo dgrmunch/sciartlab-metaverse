@@ -19,14 +19,15 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-Description: Instrument component with ios compatibility
+Description: Instrument components with ios compatibility
 //TODO: Upload and pin all resources in IPFS
 -->
 <html>
 <head>
   
   <title>SciArtLab Sound VR experiments</title>
-  <script src="https://webvr.donmccurdy.com/aframe-extras.js"></script>
+  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="https://sciartlab-vr.glitch.me/js/sciart-aframe-components.js"></script>
   <script src="js/howler.js"></script>
 
   <script>
@@ -72,8 +73,51 @@ Description: Instrument component with ios compatibility
     //LOGIC
     function playSound(soundId){
       console.log(soundId);
+      //Testing oscillator
+  // var context = new webkitAudioContext();
+    var oscillator = window.audioContext.createOscillator();
+    oscillator.type = 0; // -> sine 
+    oscillator.frequency.value = 200;
+    oscillator.connect(window.audioContext.destination);
+    oscillator.start(0);
+
       sound.play(soundId);  
     }
+    
+    
+// Fix iOS Audio Context by Blake Kus https://gist.github.com/kus/3f01d60569eeadefe3a1
+// MIT license
+(function() {
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	if (window.AudioContext) {
+		window.audioContext = new window.AudioContext();
+	}
+	var fixAudioContext = function (e) {
+		if (window.audioContext) {
+			// Create empty buffer
+			var buffer = window.audioContext.createBuffer(1, 1, 22050);
+			var source = window.audioContext.createBufferSource();
+			source.buffer = buffer;
+			// Connect to output (speakers)
+			source.connect(window.audioContext.destination);
+			// Play sound
+			if (source.start) {
+				source.start(0);
+			} else if (source.play) {
+				source.play(0);
+			} else if (source.noteOn) {
+				source.noteOn(0);
+			}
+		}
+		// Remove events
+		document.removeEventListener('touchstart', fixAudioContext);
+		document.removeEventListener('touchend', fixAudioContext);
+	};
+	// iOS 6-8
+	document.addEventListener('touchstart', fixAudioContext);
+	// iOS 9
+	document.addEventListener('touchend', fixAudioContext);
+})();
     
   </script>
 

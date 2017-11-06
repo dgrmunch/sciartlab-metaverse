@@ -1,5 +1,6 @@
-/*
+<!--
 
+ 
  "*------------------------------------------------------------------------------*"
  "|                                                                              |"
  "|   ███████╗ ██████╗██╗ █████╗ ██████╗ ████████╗    ██╗      █████╗ ██████╗    |"
@@ -12,57 +13,26 @@
  "|                      SciartLab Metaverse Components                          |"
  "|                                                                              |"
  "|                    **********  VR Experiments *******                        |"
- "|                    xmunch components (xm) for a-frame                        |"
  "|                                                                              |"
  "|                     Twitter:  @dgrmunch  | @sciartlab                        |"
  "|                     Website:  http://www.sciartlab.com]                      |"
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-* Description: It requires a-frame and sciart-lab-vr-basic.js
+Description: VR Terminal to override javascript console
+//TODO: Upload and pin all resources in IPFS
+-->
 
-*/
+<script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+<script src="https://sciartlab-vr.glitch.me/js/sciart-aframe-components.js"></script>
 
-  
-AFRAME.registerComponent('xm-json-to-menu', {
-    schema: {
-      id: {type: 'string'},
-      url: {type: 'string'},
-      x: {type: 'number'},
-      y: {type: 'number'},
-      z: {type: 'number'}
-
-    },
-    init: function () {
-
-      var params = [this.data.id, this.data.x, this.data.y, this.data.z];
-
-      //Load the JSON with the information of the new entities
-      httpGet(document.querySelector(this.data.url).getAttribute('src'),processJson,params);
-
+<script>
+  document.onkeydown = function(e) {  
+        console.log("Key pressed: "+e.keyCode);
     }
-  });
-
-  
-AFRAME.registerComponent('xm-content-from-file', {
-    schema: {
-      url: {type: 'string'}
-    },
-    init: function () {
-      //Load the scene content from a plain text file
-      httpGet(document.querySelector(this.data.url).getAttribute('src'),processSceneContent,"#"+this.el.id);
-
-    }
-  });
-
-  
-AFRAME.registerComponent('ask-for-name', {
-    init: function () {
-      askForName(this.el);
-    }
-  });
-
-
-
-
-console.log('SciartLab Metaverse Components loaded. More info: http://www.sciartlab.com | @dgrmunch');
+</script>
+<a-scene>
+  <a-sky color="gray"></a-sky>
+  <a-terminal color="lightgreen" position="-0.5 0.0 -8.5"></a-terminal>
+  <a-plane src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ffloor.jpg?1490307896453" rotation="-90 0 0" height="100" width="100" position="0 0 0"></a-plane>
+</a-scene>

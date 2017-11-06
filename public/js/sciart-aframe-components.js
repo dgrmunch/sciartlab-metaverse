@@ -19,7 +19,7 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-* Description: Basic JS Library to develop the SciArtLab Metaverse components.
+* Description: It requires a-frame and sciart-lab-vr-basic.js
 
 */
 
@@ -190,22 +190,148 @@ function goToPage(url){
   }
 
 
-   function askForName(element) {
-    var username = 'user-' + makeId(5).toLowerCase();
-    username = prompt('What is your name?', username);
-    element.setAttribute('text', 'value', username);
+// COMPONENTS
+ 
+  AFRAME.registerComponent('terminal', {
+    schema: {
+      position: {type: 'vec3', default: {x: -.75, y: 1.75, z: -1.75}},
+      color: {type: 'color', default: 'white'},
+      font: {type: 'string', default: 'monoid'}
+    },
+    init: function () {
+      
+      //Add window
+      this.windowEl = document.createElement('a-box');
+      this.el.appendChild(this.windowEl); 
+      this.windowEl.setAttribute('id', 'windowEl');
+      this.windowEl.setAttribute('position', {x: -0.030, y: 1.750, z: -1.332});
+      this.windowEl.setAttribute('color', 'black');
+      this.windowEl.setAttribute('scale',  {x:10.790, y:1.000, z:0.232});
+   
+      //Add console
+      this.consoleEl = document.createElement('a-text');
+      this.el.appendChild(this.consoleEl); 
+      this.consoleEl.setAttribute('id', 'consoleEl');
+      this.consoleEl.setAttribute('position', {x: -3.750, y:1.990, z:-1.200});
+      this.consoleEl.setAttribute('scale', {x: 1.6, y:1.6, z:1});
+      this.consoleEl.setAttribute('color', this.data.color);
+      this.consoleEl.setAttribute('font', this.data.font);
+    
+      //Replace Javascript console
+      var console = {};
+      console.log = function(input){ 
+        
+        var growIndex = 0.4;
+        var consoleEl = document.querySelector('#consoleEl');
+        var windowEl = document.querySelector('#windowEl');
+        
+        if(windowEl != undefined && consoleEl != undefined
+          && windowEl.getAttribute('scale') != undefined){
+          
+            if(input.length > 37)
+               input = input.substring(0,37)+"...";
 
-    document.querySelector('a-scene').components['networked-scene'].connect();
+            consoleEl.setAttribute('value', consoleEl.getAttribute('value')+"\n"+input);
+
+            //Grow terminal
+            windowEl.setAttribute('scale',  {x:10.790, y: (windowEl.getAttribute('scale').y + growIndex), z:0.232});
+            windowEl.setAttribute('position',  {x: -0.030, y: (windowEl.getAttribute('position').y + growIndex/2), z: -1.332});
+            consoleEl.setAttribute('position',  {x: -3.750, y: (consoleEl.getAttribute('position').y + growIndex/2), z: -1.200});
+
+        }
+      };
+      console.warn = console.log;
+      console.error = console.log;
+      console.info = console.log;
+      window.console = console;
+      
+      consoleEl.setAttribute('value', '\n ** a-terminal | sciartLab.com **');
+      
+      
+    } 
+  });
+
+AFRAME.registerPrimitive('a-terminal', {
+  defaultComponents: {
+    terminal: {}
+  },
+  mappings: {
+    position: 'terminal.position',
+    font: 'terminal.font',
+    color: 'terminal.color'
   }
+});
 
-  function makeId(length) {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < length; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+AFRAME.registerComponent('xm-json-to-menu', {
+    schema: {
+      id: {type: 'string'},
+      url: {type: 'string'},
+      x: {type: 'number'},
+      y: {type: 'number'},
+      z: {type: 'number'}
 
-    return text;
+    },
+    init: function () {
+
+      var params = [this.data.id, this.data.x, this.data.y, this.data.z];
+
+      //Load the JSON with the information of the new entities
+      httpGet(document.querySelector(this.data.url).getAttribute('src'),processJson,params);
+
+    }
+  });
+
+  
+AFRAME.registerComponent('xm-content-from-file', {
+    schema: {
+      url: {type: 'string'}
+    },
+    init: function () {
+      //Load the scene content from a plain text file
+      httpGet(document.querySelector(this.data.url).getAttribute('src'),processSceneContent,"#"+this.el.id);
+
+    }
+  });
+
+  
+AFRAME.registerComponent('ask-for-name', {
+    init: function () {
+      askForName(this.el);
+    }
+  });
+
+ AFRAME.registerComponent('log', {
+        schema: {type: 'string'},
+        init: function () {
+          var stringToLog = this.data;
+          console.log("Log: "+stringToLog);
+        }
+      });
+      
+AFRAME.registerComponent('create-entities', {
+  schema: {type: 'number'},
+  init: function () {
+    var number = this.data;
+    var sceneEl = document.querySelector('a-scene');
+
+    for(var i = 0; i< number; i++){
+
+      var entityEl = document.createElement('a-entity');
+      entityEl.setAttribute('geometry', {
+              primitive: 'box',
+              height: 2,
+              width: 2
+            });
+
+      entityEl.setAttribute('material', 'color', 'green');
+      entityEl.setAttribute('position',  {y: 1, x: (i * 5) - 5, z: -10});
+      sceneEl.appendChild(entityEl);
+
+    }
+
   }
+  });
 
-console.log('SciartLab Metaverse Library loaded. More info: http://www.sciartlab.com | @dgrmunch');
+console.log('SciartLab Metaverse Components loaded. More info: http://www.sciartlab.com | @dgrmunch');
