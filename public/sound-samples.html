@@ -1,4 +1,4 @@
-<!--
+ <!--
 
  
  "*------------------------------------------------------------------------------*"
@@ -19,15 +19,15 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-Description: Instrument components with ios compatibility
+Description: TODO: Working on component soon
 //TODO: Upload and pin all resources in IPFS
 -->
 <html>
 <head>
   
   <title>SciArtLab Sound VR experiments</title>
-  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-  <script src="https://sciartlab-vr.glitch.me/js/sciart-aframe-components.js"></script>
+  <script src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Faframe-extras.js?1510008450373"></script>
+  <script src="https://sciartlab-vr.glitch.me/js/sciart-music-api-components.js"></script>
   <script src="js/howler.js"></script>
 
   <script>
@@ -48,77 +48,24 @@ Description: Instrument components with ios compatibility
     
     //KEYBOARD NUMBERS
     var map = {};
-    map['49'] = 'box_1';
-    map['50'] = 'box_2';
-    map['51'] = 'box_3';
-    map['52'] = 'box_4';
-    map['53'] = 'box_5';
-    map['54'] = 'box_6';
-    map['55'] = 'box_7';
-    map['56'] = 'box_8';
-    map['57'] = 'box_9';
-    
-    //MAKEY MAKEY (TESTNG)
-    map['87'] = 'box_1';
-    map['65'] = 'box_2';
-    map['68'] = 'box_3';
+    map['52'] = 'box_1';
+    map['53'] = 'box_2';
+    map['54'] = 'box_3';
     
     //KEY LISTENERS  
     document.onkeydown = function(e) {  
-        console.log(e.keyCode + " - " +map[e.keyCode]);
-        if(map[e.keyCode] != undefined)
-         document.getElementById(map[e.keyCode]).click();
+      
+      console.log(e.keyCode);
+      
+      if(map[e.keyCode] != undefined)
+          document.querySelector('#'+map[e.keyCode]).emit('click');
     }
     
     //LOGIC
     function playSound(soundId){
-      console.log(soundId);
-      //Testing oscillator
-  // var context = new webkitAudioContext();
-    var oscillator = window.audioContext.createOscillator();
-    oscillator.type = 0; // -> sine 
-    oscillator.frequency.value = 200;
-    oscillator.connect(window.audioContext.destination);
-    oscillator.start(0);
-
       sound.play(soundId);  
     }
-    
-    
-// Fix iOS Audio Context by Blake Kus https://gist.github.com/kus/3f01d60569eeadefe3a1
-// MIT license
-(function() {
-	window.AudioContext = window.AudioContext || window.webkitAudioContext;
-	if (window.AudioContext) {
-		window.audioContext = new window.AudioContext();
-	}
-	var fixAudioContext = function (e) {
-		if (window.audioContext) {
-			// Create empty buffer
-			var buffer = window.audioContext.createBuffer(1, 1, 22050);
-			var source = window.audioContext.createBufferSource();
-			source.buffer = buffer;
-			// Connect to output (speakers)
-			source.connect(window.audioContext.destination);
-			// Play sound
-			if (source.start) {
-				source.start(0);
-			} else if (source.play) {
-				source.play(0);
-			} else if (source.noteOn) {
-				source.noteOn(0);
-			}
-		}
-		// Remove events
-		document.removeEventListener('touchstart', fixAudioContext);
-		document.removeEventListener('touchend', fixAudioContext);
-	};
-	// iOS 6-8
-	document.addEventListener('touchstart', fixAudioContext);
-	// iOS 9
-	document.addEventListener('touchend', fixAudioContext);
-})();
-    
+  
   </script>
 
 </head>
@@ -129,10 +76,8 @@ Description: Instrument components with ios compatibility
     
       <!-- ASSETS -->
        <a-assets>
-       
          <!-- MIXINS -->
         <a-mixin id="touched" dur="100" attribute="scale" begin="click" fill="forwards" to="1 1.9 1"></a-mixin>
-      
       </a-assets>
     
       <!-- CAMERA -->
@@ -146,16 +91,19 @@ Description: Instrument components with ios compatibility
       <!-- BACKGROUND -->
       <a-sky color="pink"></a-sky>
     
-      <a-box id="box_1" color="red" position="-1 1 2" onclick="playSound('sound_1');"> 
-          <a-animation mixin="touched"></a-animation>
-      </a-box>
-      <a-box id="box_2" color="green" position="0.2 1 2" onclick="playSound('sound_2');">
-        <a-animation mixin="touched"></a-animation>
-      </a-box>
-      <a-box id="box_3" color="blue" position="1.4 1 2" onclick="playSound('sound_3');">
-        <a-animation mixin="touched"></a-animation>
-      </a-box>
-  
+      <!-- SAMPLES ACTUATORS -->
+      <a-entity id="playground" position="-4 1 -11">
+         <a-box id="box_1" color="red" position="-1 1 2" onclick="playSound('sound_1');"> 
+              <a-animation mixin="touched"></a-animation>
+          </a-box>
+          <a-box id="box_2" color="green" position="0.2 1 2" onclick="playSound('sound_2');">
+            <a-animation mixin="touched"></a-animation>
+          </a-box>
+          <a-box id="box_3" color="blue" position="1.4 1 2" onclick="playSound('sound_3');">
+            <a-animation mixin="touched"></a-animation>
+          </a-box>
+      </a-entity>
+
   </a-scene>
 
 </body>

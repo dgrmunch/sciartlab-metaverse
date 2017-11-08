@@ -19,10 +19,9 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-* Description: It requires a-frame and sciart-lab-vr-basic.js
+* Note: It requires a-frame-extras for some of the functions
 
 */
-
 
 // FUNCTIONS AND UTILS 
 
