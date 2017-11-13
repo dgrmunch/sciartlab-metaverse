@@ -1,0 +1,110 @@
+ <!--
+
+ 
+ "*------------------------------------------------------------------------------*"
+ "|                                                                              |"
+ "|   ███████╗ ██████╗██╗ █████╗ ██████╗ ████████╗    ██╗      █████╗ ██████╗    |"
+ "|   ██╔════╝██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝    ██║     ██╔══██╗██╔══██╗   |"
+ "|   ███████╗██║     ██║███████║██████╔╝   ██║       ██║     ███████║██████╔╝   |"
+ "|   ╚════██║██║     ██║██╔══██║██╔══██╗   ██║       ██║     ██╔══██║██╔══██╗   |"
+ "|   ███████║╚██████╗██║██║  ██║██║  ██║   ██║       ███████╗██║  ██║██████╔╝   |"
+ "|   ╚══════╝ ╚═════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚═╝  ╚═╝╚═════╝    |"
+ "|                                                                              |"
+ "|                      SciartLab Metaverse Components                          |"
+ "|                                                                              |"
+ "|                    **********  VR Experiments *******                        |"
+ "|                                                                              |"
+ "|                     Twitter:  @dgrmunch  | @sciartlab                        |"
+ "|                     Website:  http://www.sciartlab.com]                      |"
+ "|                                                                              |"
+ "*------------------------------------------------------------------------------*"
+
+Description: TODO: Working on component soon
+//TODO: Upload and pin all resources in IPFS
+-->
+<html>
+<head>
+  
+  <title>SciArtLab Sound VR experiments</title>
+  <script src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Faframe-extras.js?1510008450373"></script>
+  <script src="https://sciartlab-vr.glitch.me/js/sciart-music-api-components.js"></script>
+  <script src="js/howler.js"></script>
+
+  <script>
+    
+    //SOUND SPRITE
+    var sound = new Howl({
+      src: ['https://ia600704.us.archive.org/16/items/AlphabetSongSimplePianoSolo/TinwkleTwinklePianoSoloSimple.mp3'],
+      volume: 1,
+      sprite: 
+            {
+             sound_1: [0, 300],
+             sound_2: [1200, 300],
+             sound_3: [3000, 300]
+            }
+      });
+  
+    //KEY-COMPONENT MAPPING
+    
+    //KEYBOARD NUMBERS
+    var map = {};
+    map['52'] = 'box_1';
+    map['53'] = 'box_2';
+    map['54'] = 'box_3';
+    
+    //KEY LISTENERS  
+    document.onkeydown = function(e) {  
+      
+      console.log(e.keyCode);
+      
+      if(map[e.keyCode] != undefined)
+          document.querySelector('#'+map[e.keyCode]).emit('click');
+    }
+    
+    //LOGIC
+    function playSound(soundId){
+      sound.play(soundId);  
+    }
+  
+  </script>
+
+</head>
+
+<body>
+
+  <a-scene>
+    
+      <!-- ASSETS -->
+       <a-assets>
+         <!-- MIXINS -->
+        <a-mixin id="touched" dur="100" attribute="scale" begin="click" fill="forwards" to="1 1.9 1"></a-mixin>
+      </a-assets>
+    
+      <!-- CAMERA -->
+      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 2.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
+        <a-entity cursor="fuse: true;fuseTimeout: 0.001" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: white; shader: flat">
+        </a-entity>
+      </a-entity>
+
+      <!-- SCENE CONTENT-->
+    
+      <!-- BACKGROUND -->
+      <a-sky color="pink"></a-sky>
+    
+      <!-- SAMPLES ACTUATORS -->
+      <a-entity id="playground" position="-4 1 -11">
+         <a-box id="box_1" color="red" position="-1 1 2" onclick="playSound('sound_1');"> 
+              <a-animation mixin="touched"></a-animation>
+          </a-box>
+          <a-box id="box_2" color="green" position="0.2 1 2" onclick="playSound('sound_2');">
+            <a-animation mixin="touched"></a-animation>
+          </a-box>
+          <a-box id="box_3" color="blue" position="1.4 1 2" onclick="playSound('sound_3');">
+            <a-animation mixin="touched"></a-animation>
+          </a-box>
+      </a-entity>
+
+  </a-scene>
+
+</body>
+</html>

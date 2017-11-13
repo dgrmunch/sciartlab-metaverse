@@ -19,16 +19,38 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-Description: Entry scene to the Sciart Lab experiments
-//TODO: Upload and pin all resources in IPFS
+* Description: 
+
+Loading entities from an external html file with a-frame code and add it to the DOM
+NOTE: It does not work on some browsers yet.
+
 -->
 
-SciArt Lab VR Experiments<br>
-<br>
-Exploring the potential of WebVR to create the Distributed Metaverse
-<br>
-More information: <a href="http://www.sciartlab.com">http://www.sciartlab.com</a>
 
-<b>So far check the public folder for working examples.</b>
-<br>
-Twitter: @dgrmunch @sciartlab
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,maximum-scale=1">
+    <title>SciArtLab VR Metaverse Scenes</title>
+    <script src="https://webvr.donmccurdy.com/aframe-extras.js"></script>
+    <script src="https://sciartlab-vr.glitch.me/js/sciart-aframe-components.js"></script>
+  </head>
+  
+  <body>
+    <!-- A-FRAME SCENE -->
+    <a-scene>
+      <a-assets>
+        <a-asset id="xmContent1" src="https://sciartlab-vr.glitch.me/resources/test/content.html"></a-asset>
+      </a-assets>
+
+      <!-- Add sky to the scene -->
+      <a-sky color="black"></a-sky>
+
+      <!-- Use the SciArt Lab's xmunch component: xm-content-from-file-->
+      <a-entity id="xm_content_1" position="0 0 0" xm-content-from-file="url: #xmContent1;"></a-entity>
+
+    </a-scene>
+    <!-- END A-FRAME SCENE -->
+  </body>
+</html>

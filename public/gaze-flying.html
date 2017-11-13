@@ -1,0 +1,167 @@
+<!--
+
+ 
+ "*------------------------------------------------------------------------------*"
+ "|                                                                              |"
+ "|   ███████╗ ██████╗██╗ █████╗ ██████╗ ████████╗    ██╗      █████╗ ██████╗    |"
+ "|   ██╔════╝██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝    ██║     ██╔══██╗██╔══██╗   |"
+ "|   ███████╗██║     ██║███████║██████╔╝   ██║       ██║     ███████║██████╔╝   |"
+ "|   ╚════██║██║     ██║██╔══██║██╔══██╗   ██║       ██║     ██╔══██║██╔══██╗   |"
+ "|   ███████║╚██████╗██║██║  ██║██║  ██║   ██║       ███████╗██║  ██║██████╔╝   |"
+ "|   ╚══════╝ ╚═════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚═╝  ╚═╝╚═════╝    |"
+ "|                                                                              |"
+ "|                      SciartLab Metaverse Components                          |"
+ "|                                                                              |"
+ "|                    **********  VR Experiments *******                        |"
+ "|                                                                              |"
+ "|                     Twitter:  @dgrmunch  | @sciartlab                        |"
+ "|                     Website:  http://www.sciartlab.com]                      |"
+ "|                                                                              |"
+ "*------------------------------------------------------------------------------*"
+
+Description: Testing gaze flying 
+//TODO: Upload and pin all resources in IPFS
+-->
+
+
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,maximum-scale=1">
+    
+    <title>SciArtLab VR Metaverse Scenes</title>
+    
+    <!-- LIBRARIES -->
+    
+    <script src="https://webvr.donmccurdy.com/aframe-extras.js"></script>
+    <script src="https://sciartlab-vr.glitch.me/js/sciart-aframe-components.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://samsunginter.net/a-frame-components/dist/ocean-plane.js"></script>
+ 
+  </head>
+
+  <body>
+    
+    <!-- A-FRAME SCENE -->
+    <a-scene>
+      
+      <!-- ASSETS -->
+      <a-assets>
+        
+        <!-- 3D RESOURCES -->
+        <a-asset-item id="avatar-obj" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FMask.obj?1508877731464"></a-asset-item>
+        <a-asset-item id="lab-obj" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Fexport.obj?1509204240189"></a-asset-item>
+        
+        <!-- MIXINS -->
+        <a-mixin id="checkpoint" geometry="primitive: box; height:0.1; width:0.5; depth: 0.5;" material="src:#metal" checkpoint="offset: 0 1 0" radius="0.5"></a-mixin>
+        <a-mixin id="checkpoint-wood" geometry="primitive: box; height:1; width:1; depth: 10;" material="src:#sand" checkpoint="offset: 0 1 0" radius="0.5"></a-mixin>
+        <a-mixin id="rotate-on-click" attribute="rotation" begin="click" fill="forwards" dur="4000" to="0 360 0"></a-mixin>
+        
+        <!-- TEXTURES AND IMAGES -->
+        <img id="metal" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2F356976-admin.jpg?1508784278159" />
+        <img id="sea" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg" crossorigin="anonymous" />
+        <img id="sky" src="https://gateway.ipfs.io/ipfs/QmXw1LKDhMe2HYz2pMzfEwgpc6ddPfySo3M63mhvvtiUJ6/ipfs-aframe/CGSkies_0343_free_ER.jpg" crossorigin="anonymous" />
+        <img id="sand" src="https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2Fplayground_sand_texture_by_thesilentnight-d3n70sx-e1403957101770.jpg?1508790873966" crossorigin="anonymous" />
+        
+       </a-assets>
+
+      <!-- CAMERA -->
+      <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 2.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
+
+        <a-entity cursor="fuse: true;fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.11" material="color: red; shader: flat">
+
+        <!-- Add gaze cursor to control the scene without external controllers  -->
+        <a-animation begin="click" easing="ease-in" attribute="scale" dur="1000" fill="forwards" from="0.1 0.1 0.1" to="1 1 1"></a-animation>
+        <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="1 1 1" to="0.1 0.1 0.1" dur="1000"></a-animation>
+
+        </a-entity>
+      </a-entity>
+
+      <!-- SCENE CONTENT-->
+      
+      <!-- Add sky and floor to the scene -->
+      <a-sky src="#sky" position="0 -1 0" rotation="0 -90 0"></a-sky>
+      <a-ocean-plane scale="0.5 0.5 0.5" position="0 1.08 0" material="normalMap: #sea; sphericalEnvMap: #sky;"></a-ocean-plane>
+
+      <!-- Add default lights -->
+      <a-entity light="color: orange; intensity: 0.4; type: ambient;"></a-entity>      
+      <a-entity light="color: orange; intensity: 1.5" position="0 1 -5" id="sun"></a-entity>
+
+      <!-- Add platforms -->
+      <a-entity id="metal-platforms-1">
+          <a-entity mixin="checkpoint" position="0 2 -5.2">
+            <a-animation attribute="position"
+               dur="10000"
+               from="0 2 -5.2"
+               to="10 5 5"
+               repeat="indefinite" direction="alternate">
+            </a-animation>
+        </a-entity>
+          <a-entity mixin="checkpoint" position="3 5 0"></a-entity>
+          <a-entity mixin="checkpoint" position="0 2 -5.2"></a-entity>
+          <a-entity mixin="checkpoint" position="3 5 0"></a-entity>
+          <a-entity mixin="checkpoint" position="3 4.87 -1.357"></a-entity>
+          <a-entity mixin="checkpoint" position="3.507 4.703 -1.357">
+              <a-animation attribute="position"
+               dur="10000"
+               from="3.507 4.703 -1.357"
+               to="3.507 -14.703 -1.357"
+               repeat="indefinite" direction="alternate"></a-animation>
+          </a-entity>
+          <a-entity mixin="checkpoint" position="3.507 4.703 -2.838">
+            <a-animation attribute="position"
+               dur="10000"
+               from="3.507 4.703 -2.838"
+               to="3.507 14.703 -1.357"
+               repeat="indefinite" direction="alternate"></a-animation>
+          </a-entity>
+          <a-entity mixin="checkpoint" position="3.507 3.593 -1.893">
+            <a-animation mixin="rotate-on-click"></a-animation>
+          </a-entity>
+      </a-entity>
+      
+      <a-entity id="metal-platforms-2" position="-3 4 1" rotation="0 0 0" scale="1 1 1" visible="true">
+        <a-entity mixin="checkpoint" position="0 2 -5.2" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+        <a-entity mixin="checkpoint" position="3 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3 4.87 -1.357" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.507 4.703 -1.357" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.507 4.703 -2.838" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.507 3.593 -1.893" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3 5 -0.877" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint=""></a-entity>
+         <a-entity mixin="checkpoint" position="3.49 5 0" rotation="0 0 0" scale="1 1 1" visible="true" geometry="" material="" checkpoint="">
+        </a-entity>
+      </a-entity>
+      
+      <a-entity id="wood-platforms">
+        <a-entity mixin="checkpoint-wood" position="1.384 1.131 5.553">
+          <a-animation mixin="rotate-on-click"></a-animation>
+        </a-entity>
+         <a-entity mixin="checkpoint-wood" position="10.384 1.131 10.553">
+          <a-animation mixin="rotate-on-click"></a-animation>
+        </a-entity>
+      </a-entity>  
+
+      <!-- Add lab sign -->
+      <a-obj-model src="#lab-obj" position="9.324 4.956 10.55" scale="0.020 0.020 0.010" rotation="0.000 -148.130 0.000"  mixin="checkpoint"></a-obj-model>
+      
+      <!-- Add whales -->
+      <a-entity class="whale" rotation="0 0 0" obj-model="obj:https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FBL_WHALE.OBJ?1509476551324" material="repeat:100 100;roughness:0;src:https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FBL_WHALE.MTL?1509476550939">
+          <a-animation attribute="rotation" begin="click" fill="forwards" to="0 0 360"></a-animation>
+          <a-animation attribute="position" begin="click" from="12.7 0.6 -8" to="12.7 -6 -8" ></a-animation>
+          <a-animation attribute="position" from="20.7 0 -70" to="12.7 0.6 -8" dur="10000"></a-animation>
+          <a-animation attribute="scale" repeat="loop" to="0.57 0.57 0.5" from="0.5 0.5 0.5" easing="ease-in-out" direction="alternate" duration=".5s"></a-animation>
+      </a-entity>
+      
+      <a-entity class="whale" position="-12.7 0.6 -10" rotation="0 180 180" obj-model="obj:https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FBL_WHALE.OBJ?1509476551324" material="repeat:100 100;roughness:0;src:https://cdn.glitch.com/6da486d0-5db8-4e22-a042-d4f82c13ff0f%2FBL_WHALE.MTL?1509476550939">
+        <a-animation attribute="rotation" begin="click" fill="forwards" dur="4000" to="1 1 1"></a-animation>
+        <a-animation attribute="position" begin="click" from="-12.7 0.6 -10" to="-12.7 -3.6 -10"></a-animation>
+        <a-animation attribute="scale" repeat="loop" to="1 1.27 1" from="1 1.35 1" easing="ease-in-out" direction="alternate" duration=".5s"></a-animation>
+      </a-entity>
+      <!--  END SCENE CONTENT-->
+      
+    </a-scene>
+    <!-- END A-FRAME SCENE -->
+   
+  </body>
+</html>

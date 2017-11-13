@@ -19,16 +19,23 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-Description: Entry scene to the Sciart Lab experiments
+Description: Testing progressive-controls with cardboard
 //TODO: Upload and pin all resources in IPFS
 -->
 
-SciArt Lab VR Experiments<br>
-<br>
-Exploring the potential of WebVR to create the Distributed Metaverse
-<br>
-More information: <a href="http://www.sciartlab.com">http://www.sciartlab.com</a>
+<head>
+  <title>Example</title>
+  <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/super-hands@2.1.0/dist/super-hands.min.js"></script>
+</head>
 
-<b>So far check the public folder for working examples.</b>
-<br>
-Twitter: @dgrmunch @sciartlab
+<body>
+  <a-scene>
+    <a-assets></a-assets>
+    <a-entity progressive-controls="objects: a-box"></a-entity>
+    <a-sky color="gray"></a-sky>
+    <a-box grabbable dropppable color="red" position="1 0 -1"></a-box>
+    
+  </a-scene>
+</body>

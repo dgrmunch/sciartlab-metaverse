@@ -19,16 +19,20 @@
  "|                                                                              |"
  "*------------------------------------------------------------------------------*"
 
-Description: Entry scene to the Sciart Lab experiments
+Description: VR Terminal to override javascript console
 //TODO: Upload and pin all resources in IPFS
 -->
 
-SciArt Lab VR Experiments<br>
-<br>
-Exploring the potential of WebVR to create the Distributed Metaverse
-<br>
-More information: <a href="http://www.sciartlab.com">http://www.sciartlab.com</a>
+<script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+<script src="https://sciartlab-vr.glitch.me/js/sciart-aframe-components.js"></script>
 
-<b>So far check the public folder for working examples.</b>
-<br>
-Twitter: @dgrmunch @sciartlab
+<script>
+  document.onkeydown = function(e) {  
+        console.log("Key pressed: "+e.keyCode);
+    }
+</script>
+<a-scene>
+  <a-sky color="gray"></a-sky>
+  <a-terminal color="red" position="-0.5 0.0 -8.5"></a-terminal>
+  <a-plane src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ffloor.jpg?1490307896453" rotation="-90 0 0" height="100" width="100" position="0 0 0"></a-plane>
+</a-scene>
